@@ -2,6 +2,7 @@
 
 const assert = require('assert');
 const readline = require('readline');
+const { start } = require('repl');
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout
@@ -27,33 +28,45 @@ const printStacks = () => {
   console.log("a: " + stacks.a);
   console.log("b: " + stacks.b);
   console.log("c: " + stacks.c);
-}
+};
 
 // Next, what do you think this function should do?
-const movePiece = () => {
-  // Your code here
-
-}
+const movePiece = () => (startStack, endStack) => {
+  let disk = stacks[startStack].pop();
+  stacks[endStack].push(disk);
+};
 
 // Before you move, should you check if the move it actually allowed? Should 3 be able to be stacked on 2
-const isLegal = () => {
-  // Your code here
-
+const isLegal = (startStack, endStack) => {
+  if (stacks[endStack].length === 0) {
+  console.log("This move is legal");
+return true;
 }
+console.log("This move is illegal");
+return false;
+};
 
 // What is a win in Towers of Hanoi? When should this function run?
 const checkForWin = () => {
-  // Your code here
-
-}
+  if (stacks["b"].length === 4) {
+    console.log("You Win!!");
+    return true;
+  } else {
+    return false;
+  }
+  };
+  
 
 // When is this function called? What should it do with its argument?
 const towersOfHanoi = (startStack, endStack) => {
-  // Your code here
+  console.log(startStack, endStack);
+  if (isLegal(startStack, endStack)) {
+    movePiece(startStack, endStack);
+    checkForWin();
+  }
+  };
 
-}
-
-const getPrompt = () => {
+  const getPrompt = () => {
   printStacks();
   rl.question('start stack: ', (startStack) => {
     rl.question('end stack: ', (endStack) => {
